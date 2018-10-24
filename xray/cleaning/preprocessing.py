@@ -8,15 +8,25 @@ Gera as series de Ideb por ano para serem usadas na analise cluster que vou faze
 '''
 
 class Preprocessing(object):
-    def __init__(self, file_name, encoding='utf-8'):
+    def __init__(self, file_name,  data_type, encoding='utf-8'):
         self.file = file_name
+        self.data_type = data_type
         self.encoding = encoding
         self.dados = None
         self.dados_temporais = None
     @property
     def campos_validos(self):
-        return ['Co_UF', 'Cod_Municipio_Completo', 'Cod_Escola_Completo', 'Rede', 'Ideb2005', 'Ideb2007', 'Ideb2009',
-                'Ideb2011', 'Ideb2013', 'Ideb2015', 'Ideb2017']
+        if self.data_type == 'escola':
+            return ['Co_UF', 'Cod_Municipio_Completo', 'Cod_Escola_Completo', 'Rede', 'Ideb2005', 'Ideb2007', 'Ideb2009',
+                    'Ideb2011', 'Ideb2013', 'Ideb2015', 'Ideb2017']
+        else :
+            if self.data_type == 'municipio':
+                return ['Co_UF', 'Cod_Municipio_Completo', 'Rede', 'Ideb2005', 'Ideb2007', 'Ideb2009',
+                    'Ideb2011', 'Ideb2013', 'Ideb2015', 'Ideb2017']
+            else:
+                return ['UF_REG', 'Rede', 'Ideb2005', 'Ideb2007', 'Ideb2009',
+                    'Ideb2011', 'Ideb2013', 'Ideb2015', 'Ideb2017']
+
     def load_file(self):
         df = pd.read_csv(self.file, encoding=self.encoding)
         df = df[self.campos_validos].copy()

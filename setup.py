@@ -9,5 +9,5 @@ setup(name='xray',
       author_email="lidia.sawakuchi@gmail.com",
       license="MIT",
       keywords="gamma challenge",
-      packages=["E-xray"],
+      packages=["xray"],
       zip_safe=False)
