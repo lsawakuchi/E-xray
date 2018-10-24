@@ -29,7 +29,7 @@ class Preprocessing(object):
 
     def load_file(self):
         df = pd.read_csv(self.file, encoding=self.encoding)
-        df = df[self.campos_validos()].copy()
+        df = df[self.campos_validos].copy()
         if self.data_type == 'uf':
             df.columns = [self.data_type, 'tp_rede', 'i05', 'i07', 'i09', 'i11', 'i13', 'i15', 'i17']
         else :
@@ -42,23 +42,27 @@ class Preprocessing(object):
         lista_col = ['i05', 'i07', 'i09', 'i11', 'i13', 'i15', 'i17']
         for el in lista_col:
             self.dados[el] = self.dados.apply(lambda x : '0' if x[el]=='-' else x[el], axis=1)
-    
+            
     def formata_serie(self):
-        frames = []
-        for each in self.dados[self.data_type].unique().tolist():
-            dfesc = self.dados[self.dados[self.data_type] == each]
-            _df = dfesc.iloc[:, 4:].T
-            _df.columns = ['ideb']
-            lista_ideb = _df['ideb'].tolist()
-            frames.append(pd.DataFrame({self.data_type : [dfesc[self.data_type].iloc[0]]*7,
-                                       'uf' : [dfesc['uf'].iloc[0]]*7,
-                                       'tp_rede' : [dfesc['tp_rede'].iloc[0]]*7,
-                                       'ano' : [2005, 2007, 2009, 2011, 2013, 2015, 2017],
-                                       'ideb' : lista_ideb}))
-        resp = pd.concat(frames)
-        resp['ideb'] = resp.apply(lambda x : float(x['ideb']), axis=1)
+        resp = []
+        for row in self.dados.iterrows():
+            resp.append(row)
+        serie = []
+        for i in range(resp.__len__()):
+            _row = dict(list(resp[i][1:])[0])
+            _df = pd.DataFrame({"uf" : [_row.get("uf")]*7, 
+                                 self.data_type : [_row.get(self.data_type)]*7, 
+                                 "tp_rede" : [_row.get("tp_rede")]*7,
+                                 "ano" : [2005, 2007, 2009, 2011, 2013, 2015, 2017],
+                                "ideb" : [_row.get('i05'), _row.get('i07'), _row.get('i09'),
+                                         _row.get('i11'), _row.get('i13'), _row.get('i15'), _row.get('i17')]})
+            serie.append(_df)
+        serie = pd.concat(serie)
+        serie['ideb'] = serie.apply(lambda x : float(x['ideb']), axis=1)
+        if self.data_type == 'uf':
+            serie = serie.iloc[:, 1:]
         if self.dados_temporais is None:
-            self.dados_temporais = resp
+            self.dados_temporais = serie
     
     def dados_finais(self):
         self.load_file()
@@ -67,6 +71,7 @@ class Preprocessing(object):
         return self.dados_temporais
     
 if __name__ == '__main__':
-    pp = Preprocessing('ideb_escolas_anosfinais2005_2017.csv', 'latin-1')
+    pp = Preprocessing(file_name='ideb_uf_regioes_anosiniciais2005_2017.csv', data_type='uf', encoding = 'latin-1')
     resp2 = pp.dados_finais()
+    
     
