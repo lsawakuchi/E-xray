@@ -30,7 +30,14 @@ class Preprocessing(object):
     def load_file(self):
         df = pd.read_csv(self.file, encoding=self.encoding)
         df = df[self.campos_validos].copy()
-        df.columns = ['uf', 'cod_mun', 'cod_escola', 'tp_rede', 'i05', 'i07', 'i09', 'i11', 'i13', 'i15', 'i17']
+        if self.data_type == 'escola' :
+            df.columns = ['uf', 'cod_mun', 'cod_escola', 'tp_rede', 'i05', 'i07', 'i09', 'i11', 'i13', 'i15', 'i17']
+        else : 
+            if self.data_type == 'municipio' :
+                df.columns = ['uf', 'cod_mun', 'tp_rede', 'i05', 'i07', 'i09', 'i11', 'i13', 'i15', 'i17']
+            else :
+                df.columns = ['uf_reg', 'tp_rede', 'i05', 'i07', 'i09', 'i11', 'i13', 'i15', 'i17']
+
         df['cod_escola'] = df['cod_escola'].astype(int)
         df['cod_mun'] = df['cod_mun'].astype(int)
         if self.dados is None:
