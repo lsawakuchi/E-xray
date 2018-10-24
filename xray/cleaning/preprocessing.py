@@ -29,7 +29,7 @@ class Preprocessing(object):
 
     def load_file(self):
         df = pd.read_csv(self.file, encoding=self.encoding)
-        df = df[self.campos_validos].copy()
+        df = df[self.campos_validos()].copy()
         if self.data_type == 'uf':
             df.columns = [self.data_type, 'tp_rede', 'i05', 'i07', 'i09', 'i11', 'i13', 'i15', 'i17']
         else :
