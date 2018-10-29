@@ -130,4 +130,10 @@ class SeriesIdeb(object):
         
 if __name__ == '__main__':
     si = SeriesIdeb(escola = 53005740)
-    si.calcula()          
+    si.calcula()
+    print("Escola avaliada : {}".format(si.escola))
+    print("Correlacao direta : {}".format(si.corr_direta))
+    print("Indice de disparidade : {}".format(si.ind_disp))
+    print("Correlacao indireta : {}".format(si.corr_indireta))
+    print("Taxa de progressao : {}".format(si.tx_progressao))
+    print("Taxa de evolucao : {}".format(si.tx_evolucao))
