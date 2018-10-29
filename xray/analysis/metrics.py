@@ -25,13 +25,13 @@ class SeriesIdeb(object):
     
     def load_series(self):
         if self.series_iniciais is None:
-            pp = Preprocessing(file_name='ideb_escolas_anosiniciais2005_2017.csv', data_type='escola', encoding = 'latin-1')
+            pp = Preprocessing(file_name='../../dataset/ideb_escolas_anosiniciais2005_2017.csv', data_type='escola', encoding = 'latin-1')
             df0 = pp.dados_finais()
             df0.rename(columns={'ideb' : 'ideb_ai'}, inplace=True)
             self.series_iniciais = df0
             
         if self.series_finais is None:
-            pp = Preprocessing(file_name='ideb_escolas_anosfinais2005_2017.csv', data_type='escola', encoding = 'latin-1')
+            pp = Preprocessing(file_name='../../dataset/ideb_escolas_anosfinais2005_2017.csv', data_type='escola', encoding = 'latin-1')
             df1 = pp.dados_finais()
             df1.rename(columns={'ideb' : 'ideb_af'}, inplace=True)
             self.series_finais = df1

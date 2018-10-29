@@ -4,7 +4,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 '''
-Gera as series de Ideb por ano para serem usadas na analise cluster que vou fazer
+Gera as series temporais de Ideb para os anos inicial e final
 '''
 
 class Preprocessing(object):
@@ -71,7 +71,7 @@ class Preprocessing(object):
         return self.dados_temporais
     
 if __name__ == '__main__':
-    pp = Preprocessing(file_name='ideb_uf_regioes_anosiniciais2005_2017.csv', data_type='uf', encoding = 'latin-1')
+    pp = Preprocessing(file_name='../../dataset/ideb_uf_regioes_anosiniciais2005_2017.csv', data_type='uf', encoding = 'latin-1')
     resp2 = pp.dados_finais()
     
     

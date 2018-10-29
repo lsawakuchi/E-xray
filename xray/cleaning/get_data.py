@@ -8,7 +8,7 @@ class getData(object):
     def __init__(self, link, output_dir='Desenvolvimento/Desafio/cleaning', filename=None):
         self.link = link
         self.output_dir = output_dir
-        self.filename = filename
+        self.filename = filenamedo
         
     def download_data(self):
         request = requests.get(self.link)
